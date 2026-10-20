@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CareerHub · apply for roles</title>
+  <!-- Font Awesome 6 (free) for clean icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* ---------- RESET & GLOBAL ---------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background: #f4f7fc;
+      color: #1e2b3c;
+      line-height: 1.5;
+      padding: 2rem 1rem;
+    }
+
+    /* smooth container */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* ---------- HEADER SECTION ---------- */
+    .page-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .page-header h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #0a1e32;
+    }
+
+    .page-header h1 i {
+      color: #2a7f6e;
+      margin-right: 10px;
+    }
+
+    .page-header p {
+      font-size: 1.1rem;
+      color: #4f6278;
+      max-width: 700px;
+      margin: 0.6rem auto 0;
+    }
+
+    /* ---------- JOB GRID ---------- */
+    .jobs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.6rem;
+      margin-bottom: 2.5rem;
+    }
+
+    /* ---------- CARD DESIGN ---------- */
+    .job-card {
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 1.6rem 1.4rem 1.4rem;
+      box-shadow: 0 12px 28px -8px rgba(0, 20, 30, 0.08);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid #eaf0f8;
+    }
+
+    .job-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 32px -10px rgba(20, 60, 80, 0.15);
+      border-color: #cbdde8;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1rem;
+    }
+
+    .card-header i {
+      font-size: 2.2rem;
+      width: 2.6rem;
+      text-align: center;
+      color: #1e5f74;
+    }
+
+    .card-header h2 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+      color: #1a2e40;
+    }
+
+    .job-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem 1rem;
+      font-size: 0.9rem;
+      color: #526b7c;
+      margin-bottom: 1.4rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 1px dashed #d9e4ed;
+    }
+
+    .job-meta span i {
+      margin-right: 5px;
+      color: #5f8b9c;
+      width: 1rem;
+    }
+
+    .job-desc {
+      font-size: 0.95rem;
+      color: #3b4e60;
+      margin-bottom: 1.5rem;
+      flex-grow: 1;
+    }
+
+    /* Apply button */
+    .apply-btn {
+      background: #1e5f74;
+      color: white;
+      border: none;
+      border-radius: 60px;
+      padding: 0.75rem 1.4rem;
+      font-size: 1rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      width: 100%;
+      letter-spacing: 0.3px;
+      box-shadow: 0 4px 10px rgba(28, 91, 111, 0.2);
+    }
+
+    .apply-btn i {
+      font-size: 0.95rem;
+    }
+
+    .apply-btn:hover {
+      background: #0d4457;
+    }
+
+    .apply-btn:active {
+      transform: scale(0.97);
+    }
+
+    .apply-btn.applied {
+      background: #2a7f6e;
+      box-shadow: none;
+    }
+
+    /* ---------- FORM SECTION (apply modal style) ---------- */
+    .apply-section {
+      background: #ffffff;
+      border-radius: 30px;
+      padding: 2rem 2rem 2.2rem;
+      box-shadow: 0 12px 32px -12px rgba(0, 20, 30, 0.12);
+      margin: 2.5rem 0 1rem;
+      border: 1px solid #e0ecf5;
+      transition: all 0.3s ease;
+    }
+
+    .apply-section h2 {
+      font-size: 1.7rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+      color: #0a1e32;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .apply-section h2 i {
+      color: #1e5f74;
+    }
+
+    .apply-section .subhead {
+      color: #5f7388;
+      margin-bottom: 2rem;
+      font-size: 1rem;
+      border-left: 4px solid #2a7f6e;
+      padding-left: 1rem;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem 2rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group.full-width {
+      grid-column: span 2;
+    }
+
+    .form-group label {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #1d3a4d;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .form-group label i {
+      color: #1e5f74;
+      width: 1.2rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      padding: 0.9rem 1.2rem;
+      border: 1.5px solid #d3e0ea;
+      border-radius: 60px;
+      font-size: 0.98rem;
+      background: #f9fcff;
+      transition: border 0.2s, box-shadow 0.2s;
+      font-family: inherit;
+    }
+
+    .form-group textarea {
+      border-radius: 24px;
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #1e5f74;
+      box-shadow: 0 0 0 4px rgba(30, 95, 116, 0.1);
+      background: #ffffff;
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+      padding: 0.9rem 2rem;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+      transition: 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-primary {
+      background: #1e5f74;
+      color: white;
+      box-shadow: 0 6px 14px rgba(26, 95, 116, 0.25);
+    }
+
+    .btn-primary:hover {
+      background: #0d4457;
+    }
+
+    .btn-secondary {
+      background: white;
+      color: #2a4b5e;
+      border: 1.5px solid #c2d6e3;
+    }
+
+    .btn-secondary:hover {
+      background: #eff5fa;
+      border-color: #94b6ca;
+    }
+
+    /* feedback message */
+    .form-feedback {
+      margin-top: 1rem;
+      font-size: 0.95rem;
+      padding: 0.8rem 1.2rem;
+      border-radius: 40px;
+      background: #e2f0ea;
+      color: #1b5e4b;
+      display: none;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .form-feedback.show {
+      display: flex;
+    }
+
+    .form-feedback i {
+      font-size: 1.2rem;
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 750px) {
+      body {
+        padding: 1.2rem 0.8rem;
+      }
+
+      .page-header h1 {
+        font-size: 1.8rem;
+      }
+
+      .jobs-grid {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .form-group.full-width {
+        grid-column: span 1;
+      }
+
+      .apply-section {
+        padding: 1.6rem 1.2rem;
+      }
+
+      .form-actions {
+        flex-direction: column;
+      }
+
+      .btn-primary,
+      .btn-secondary {
+        justify-content: center;
+        width: 100%;
+      }
+
+      .apply-btn {
+        padding: 0.8rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .card-header h2 {
+        font-size: 1.15rem;
+      }
+
+      .job-meta {
+        font-size: 0.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <!-- header -->
+  <div class="page-header">
+    <h1><i class="fas fa-briefcase"></i> CareerHub</h1>
+    <p>Apply for open positions — from front‑line to freelance. Pick a role and send your application.</p>
+  </div>
+
+  <!-- grid populated by JS (but with static fallback? we'll generate via JS) -->
+  <div id="jobsGrid" class="jobs-grid"></div>
+
+  <!-- application form (target role auto-filled) -->
+  <div class="apply-section" id="applySection">
+    <h2><i class="fas fa-paper-plane"></i> Apply now</h2>
+    <div class="subhead" id="selectedRoleDisplay">Select a job above to prefill the role</div>
+
+    <form id="applicationForm">
+      <div class="form-grid">
+        <!-- full name -->
+        <div class="form-group">
+          <label><i class="fas fa-user"></i> Full name</label>
+          <input type="text" id="fullName" placeholder="e.g. Alex Morgan" required>
+        </div>
+        <!-- email -->
+        <div class="form-group">
+          <label><i class="fas fa-envelope"></i> Email address</label>
+          <input type="email" id="email" placeholder="alex@example.com" required>
+        </div>
+        <!-- phone -->
+        <div class="form-group">
+          <label><i class="fas fa-phone-alt"></i> Phone (optional)</label>
+          <input type="tel" id="phone" placeholder="+1 234 567 890">
+        </div>
+        <!-- role (dropdown) -->
+        <div class="form-group">
+          <label><i class="fas fa-tag"></i> Role applying for</label>
+          <select id="roleSelect" required>
+            <option value="">— Select a role —</option>
+            <option value="Waiters and waitresses">Waiters and waitresses</option>
+            <option value="Salespeople">Salespeople</option>
+            <option value="Office assistants">Office assistants</option>
+            <option value="Customer care agents">Customer care agents</option>
+            <option value="Online freelancers">Online freelancers</option>
+            <option value="Data entry clerks">Data entry clerks</option>
+            <option value="Teachers and tutors">Teachers and tutors</option>
+            <option value="Accountants">Accountants</option>
+            <option value="ICT professionals">ICT professionals</option>
+            <option value="Entrepreneurs and small-business workers">Entrepreneurs and small-business workers</option>
+          </select>
+        </div>
+        <!-- cover letter -->
+        <div class="form-group full-width">
+          <label><i class="fas fa-pen"></i> Short cover letter / message</label>
+          <textarea id="coverLetter" placeholder="Tell us why you're a great fit..."></textarea>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-secondary" id="clearFormBtn"><i class="fas fa-undo-alt"></i> Clear</button>
+        <button type="submit" class="btn-primary"><i class="fas fa-check-circle"></i> Submit application</button>
+      </div>
+      <div id="formFeedback" class="form-feedback"><i class="fas fa-check-circle"></i> Application sent! We'll reach out soon.</div>
+    </form>
+  </div>
+</div>
+
+<script>
+  (function() {
+    // ---------- JOB LISTINGS (with icons) ----------
+    const jobs = [
+      { title: "Waiters and waitresses", icon: "fa-utensils", meta: "Hospitality · Full/Part-time", desc: "Provide excellent table service, take orders, and ensure guest satisfaction." },
+      { title: "Salespeople", icon: "fa-chart-line", meta: "Retail · Commission + base", desc: "Drive sales, build customer relationships, and meet targets." },
+      { title: "Office assistants", icon: "fa-clipboard-list", meta: "Admin · On-site", desc: "Support daily office operations, scheduling, and correspondence." },
+      { title: "Customer care agents", icon: "fa-headset", meta: "Support · Remote/Hybrid", desc: "Resolve customer inquiries via phone, email, and chat." },
+      { title: "Online freelancers", icon: "fa-laptop", meta: "Remote · Flexible", desc: "Offer your skills on global platforms — writing, design, dev, and more." },
+      { title: "Data entry clerks", icon: "fa-keyboard", meta: "Remote · Full-time", desc: "Accurately input and maintain data in internal systems." },
+      { title: "Teachers and tutors", icon: "fa-chalkboard-user", meta: "Education · Full/Part-time", desc: "Educate and mentor students in various subjects." },
+      { title: "Accountants", icon: "fa-calculator", meta: "Finance · Hybrid", desc: "Manage financial records, reports, and compliance." },
+      { title: "ICT professionals", icon: "fa-microchip", meta: "Tech · On-site/Remote", desc: "Support IT infrastructure, networks, and software systems." },
+      { title: "Entrepreneurs and small-business workers", icon: "fa-store", meta: "Business · Flexible", desc: "Join a dynamic team or bring your own venture — various roles." }
+    ];
+
+    const jobsGrid = document.getElementById('jobsGrid');
+    const roleSelect = document.getElementById('roleSelect');
+    const selectedRoleDisplay = document.getElementById('selectedRoleDisplay');
+    const form = document.getElementById('applicationForm');
+    const feedback = document.getElementById('formFeedback');
+    const clearBtn = document.getElementById('clearFormBtn');
+
+    // ----- render job cards -----
+    function renderJobs() {
+      jobsGrid.innerHTML = jobs.map(job => `
+        <div class="job-card" data-role="${job.title}">
+          <div class="card-header">
+            <i class="fas ${job.icon}"></i>
+            <h2>${job.title}</h2>
+          </div>
+          <div class="job-meta">
+            <span><i class="fas fa-briefcase"></i> ${job.meta}</span>
+          </div>
+          <div class="job-desc">${job.desc}</div>
+          <button class="apply-btn" data-role="${job.title}">
+            <i class="fas fa-pen-fancy"></i> Apply now
+          </button>
+        </div>
+      `).join('');
+    }
+
+    // ----- update form role + display when a job is clicked -----
+    function setRoleAndScroll(roleName) {
+      if (!roleName) return;
+      // update select
+      if (roleSelect) {
+        roleSelect.value = roleName;
+        // if the role isn't found (edge case) fallback to empty
+        if (roleSelect.value !== roleName) roleSelect.value = '';
+      }
+      // update visual subhead
+      if (selectedRoleDisplay) {
+        selectedRoleDisplay.innerHTML = `<i class="fas fa-check-circle" style="color:#2a7f6e;"></i> You are applying for: <strong>${roleName}</strong>`;
+      }
+      // scroll to form smoothly
+      document.getElementById('applySection').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      // highlight (optional)
+      const applySection = document.getElementById('applySection');
+      applySection.style.transition = 'background 0.2s';
+      applySection.style.background = '#f9fcff';
+      setTimeout(() => { applySection.style.background = '#ffffff'; }, 250);
+    }
+
+    // ----- attach event listeners after render -----
+    function attachCardListeners() {
+      // apply buttons
+      document.querySelectorAll('.apply-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const role = btn.getAttribute('data-role');
+          setRoleAndScroll(role);
+        });
+      });
+      // also make whole card clickable (excluding button) but not required; we can add card click:
+      document.querySelectorAll('.job-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+          // avoid double when button clicked (already handled)
+          if (e.target.closest('.apply-btn')) return;
+          const role = card.getAttribute('data-role');
+          setRoleAndScroll(role);
+        });
+      });
+    }
+
+    // ----- reset / clear form -----
+    function resetForm() {
+      form.reset();
+      // reset role select to empty
+      if (roleSelect) roleSelect.value = '';
+      if (selectedRoleDisplay) {
+        selectedRoleDisplay.innerHTML = 'Select a job above to prefill the role';
+      }
+      // hide feedback
+      if (feedback) feedback.classList.remove('show');
+      // remove any 'applied' state on buttons (visual)
+      document.querySelectorAll('.apply-btn').forEach(btn => {
+        btn.classList.remove('applied');
+        btn.innerHTML = '<i class="fas fa-pen-fancy"></i> Apply now';
+      });
+    }
+
+    // ----- form submit (prevent default, show feedback) -----
+    function handleSubmit(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('fullName').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const role = roleSelect.value;
+
+      if (!name || !email || !role) {
+        // simple inline validation (browser also does required)
+        alert('Please fill in name, email, and select a role.');
+        return;
+      }
+
+      // show feedback message
+      feedback.classList.add('show');
+      // optional: mark the corresponding apply button as applied
+      document.querySelectorAll('.apply-btn').forEach(btn => {
+        if (btn.getAttribute('data-role') === role) {
+          btn.classList.add('applied');
+          btn.innerHTML = '<i class="fas fa-check-circle"></i> Applied ✓';
+        }
+      });
+
+      // update subhead with success
+      selectedRoleDisplay.innerHTML = `<i class="fas fa-check-circle" style="color:#2a7f6e;"></i> Application sent for: <strong>${role}</strong>`;
+
+      // reset fields but keep role? we can clear name/email? better to reset after submit?
+      // we'll just reset the text fields and cover letter but keep role displayed
+      document.getElementById('fullName').value = '';
+      document.getElementById('email').value = '';
+      document.getElementById('phone').value = '';
+      document.getElementById('coverLetter').value = '';
+
+      // hide feedback after 5 sec
+      setTimeout(() => {
+        feedback.classList.remove('show');
+      }, 5000);
+    }
+
+    // ----- initial render + event binding -----
+    renderJobs();
+    attachCardListeners();
+
+    // attach form submit
+    form.addEventListener('submit', handleSubmit);
+
+    // clear button
+    clearBtn.addEventListener('click', resetForm);
+
+    // also, if user manually changes select, update the display
+    roleSelect.addEventListener('change', (e) => {
+      const selected = e.target.value;
+      if (selected) {
+        selectedRoleDisplay.innerHTML = `<i class="fas fa-check-circle" style="color:#2a7f6e;"></i> You are applying for: <strong>${selected}</strong>`;
+      } else {
+        selectedRoleDisplay.innerHTML = 'Select a job above to prefill the role';
+      }
+    });
+
+    // optional: reset feedback on any input (so new submission works)
+    form.querySelectorAll('input, textarea, select').forEach(field => {
+      field.addEventListener('input', () => {
+        if (feedback.classList.contains('show')) {
+          feedback.classList.remove('show');
+        }
+      });
+    });
+
+  })();
+</script>
+</body>
+  </html>
